@@ -1,36 +1,35 @@
 <template>
-    <section>
-      <h2 class="p-6 text-3xl font-bold text-center">Your Task</h2>
-      <ul class="">
-        <TaskItem 
-          @removeTask="removeTodo" 
-          @toggleTask="toggleCheckbox" 
-          @updateTask="updateTodo"
-          v-for="task in taskList" 
-          :id="task.id"
-          :key="task.id" 
-          :name="task.name" 
-          :isCompleted="task.isCompleted" 
-        />
-      </ul>
-    </section>
+    <div>
+      <TaskItem
+        v-for="task in taskList"
+        :key="task.id"
+        :task="task"
+        @toggleTask="toggleTask"
+        @removeTask="removeTask"
+        @updateTask="updateTask"
+      />
+    </div>
   </template>
   
   <script setup>
   import TaskItem from './TaskItem.vue';
-  const props = defineProps(['taskList']);
+  
+  const props = defineProps({
+    taskList: Array,
+  });
+  
   const emit = defineEmits(['toggleTask', 'removeTask', 'updateTask']);
   
-  const toggleCheckbox = (payload) => {
-    emit('toggleTask', payload);
+  const toggleTask = (id) => {
+    emit('toggleTask', id);
   };
   
-  const removeTodo = (payload) => {
-    emit('removeTask', payload);
+  const removeTask = (id) => {
+    emit('removeTask', id);
   };
   
-  const updateTodo = (payload) => {
-    emit('updateTask', payload);
+  const updateTask = (updatedTask) => {
+    emit('updateTask', updatedTask);
   };
   </script>
   
