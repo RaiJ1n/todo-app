@@ -1,10 +1,20 @@
 <template>
     <div class="flex items-center justify-between p-2 border-b">
-      <div @click="toggleComplete" :class="{ 'line-through': task.isCompleted }" class="cursor-pointer">
-        {{ task.name }}
+      <div class="flex items-center gap-2">
+        <input 
+          type="checkbox" 
+          v-model="showRemoveButton" 
+          class="cursor-pointer"
+        />
+        <div 
+          @dblclick="showUpdateModal" 
+          :class="{ 'line-through': task.isCompleted }" 
+          class="cursor-pointer"
+        >
+          {{ task.name }}
+        </div>
       </div>
-      <div class="flex items-center gap-3">
-        <button @click="showUpdateModal" class="text-blue-600">Edit</button>
+      <div v-if="showRemoveButton" class="flex items-center gap-2">
         <button @click="removeTask" class="text-red-600">Delete</button>
       </div>
       <Modal
@@ -28,6 +38,7 @@
   const emit = defineEmits(['toggleTask', 'removeTask', 'updateTask']);
   
   const isUpdateModalVisible = ref(false);
+  const showRemoveButton = ref(false);
   
   const toggleComplete = () => {
     emit('toggleTask', props.task.id);
@@ -50,4 +61,10 @@
     hideUpdateModal();
   };
   </script>
+  
+  <style scoped>
+  .line-through {
+    text-decoration: line-through;
+  }
+  </style>
   

@@ -17,7 +17,7 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   
   const props = defineProps({
     isVisible: Boolean,
@@ -27,7 +27,11 @@
   
   const emit = defineEmits(['close', 'confirm']);
   
-  const taskName = ref(props.task ? props.task.name : '');
+  const taskName = ref('');
+  
+  watch(props.task, (newTask) => {
+    taskName.value = newTask ? newTask.name : '';
+  }, { immediate: true });
   
   const closeModal = () => {
     emit('close');

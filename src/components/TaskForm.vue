@@ -42,6 +42,7 @@
   };
   </script>
   
+
   <style scoped>
   .flex {
     display: flex;
