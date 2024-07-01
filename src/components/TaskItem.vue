@@ -6,7 +6,7 @@
           <span :class="{ 'line-through': task.isCompleted }" @dblclick="editTask">{{ task.name }}</span>
         </div>
         <div class="flex gap-2">
-          <button v-if="task.isCompleted" @click="removeTaskHandler(task.id)" class="px-4 py-2 border rounded bg-red-500 text-white">Remove</button>
+          <button v-if="task.isCompleted" @click="removeTaskHandler(task.id)" class="px-2 py-1 border rounded bg-red-500 text-white">Remove</button>
         </div>
       </div>
       <div v-if="isEditing" class="flex items-center mt-2">
