@@ -1,35 +1,40 @@
 <template>
-    <div>
-      <TaskItem
-        v-for="task in taskList"
-        :key="task.id"
-        :task="task"
-        @toggleTask="toggleTask"
-        @removeTask="removeTask"
-        @updateTask="updateTask"
+    <ul class="task-list space-y-2">
+      <TaskItem 
+        v-for="task in taskList" 
+        :key="task.id" 
+        :task="task" 
+        @toggleTask="toggleTaskHandler" 
+        @removeTask="removeTaskHandler" 
+        @editTask="editTaskHandler" 
       />
-    </div>
+    </ul>
   </template>
   
   <script setup>
   import TaskItem from './TaskItem.vue';
   
-  const props = defineProps({
-    taskList: Array,
-  });
+  const props = defineProps(['taskList']);
+  const emit = defineEmits(['toggleTask', 'removeTask', 'editTask']);
   
-  const emit = defineEmits(['toggleTask', 'removeTask', 'updateTask']);
-  
-  const toggleTask = (id) => {
+  const toggleTaskHandler = (id) => {
     emit('toggleTask', id);
   };
   
-  const removeTask = (id) => {
+  const removeTaskHandler = (id) => {
     emit('removeTask', id);
   };
   
-  const updateTask = (updatedTask) => {
-    emit('updateTask', updatedTask);
+  const editTaskHandler = ({ id, name }) => {
+    emit('editTask', { id, name });
   };
   </script>
+  
+  <style scoped>
+  .task-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  </style>
   

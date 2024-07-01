@@ -4,15 +4,20 @@
         <dialog :open="show" class=" z-[999] rounded-xl p-6  overflow-hidden">
             <div>
                 <header class="p-3">
-                    <slot name="modal-header"></slot>
+                    <slot name="modal-header">
+
+                    </slot>
                 </header>
                 <main class="p-3">
-                    <slot name="modal-content"></slot>
+                    <slot name="modal-content">
+
+                    </slot>
                 </main>
                 <!-- Action -->
                 <div class="flex gap-3 justify-end">
                     <slot />
                 </div>
+
             </div>
         </dialog>
     </Teleport>
@@ -26,4 +31,6 @@ const toggleBackdropHandler = () => {
     emit('toggleBackdrop', props.show)
     console.log(props.show);
 }
+
+
 </script>

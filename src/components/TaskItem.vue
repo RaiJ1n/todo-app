@@ -1,64 +1,51 @@
 <template>
-    <div class="flex items-center justify-between p-2 border-b">
-      <div class="flex items-center gap-2">
-        <input 
-          type="checkbox" 
-          v-model="showRemoveButton" 
-          class="cursor-pointer"
-        />
-        <div 
-          @dblclick="showUpdateModal" 
-          :class="{ 'line-through': task.isCompleted }" 
-          class="cursor-pointer"
-        >
-          {{ task.name }}
+    <li class="task-item p-3 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div @click="toggleTaskHandler(task.id)" class="flex items-center grow">
+          <input type="checkbox" :checked="task.isCompleted" class="mr-2" />
+          <span :class="{ 'line-through': task.isCompleted }" @dblclick="editTask">{{ task.name }}</span>
+        </div>
+        <div class="flex gap-2">
+          <button v-if="task.isCompleted" @click="removeTaskHandler(task.id)" class="px-4 py-2 border rounded bg-red-500 text-white">Remove</button>
         </div>
       </div>
-      <div v-if="showRemoveButton" class="flex items-center gap-2">
-        <button @click="removeTask" class="text-red-600">Delete</button>
+      <div v-if="isEditing" class="flex items-center mt-2">
+        <input v-model="editedTaskName" type="text" class="mr-2 p-2 border rounded grow" @keyup.enter="saveTask" />
+        <button @click="saveTask" class="px-4 py-2 border rounded bg-blue-500 text-white mr-2">Save</button>
+        <button @click="cancelEdit" class="px-4 py-2 border rounded bg-gray-500 text-white">Cancel</button>
       </div>
-      <Modal
-        :isVisible="isUpdateModalVisible"
-        title="Update Task"
-        :task="task"
-        @close="hideUpdateModal"
-        @confirm="updateTodo"
-      />
-    </div>
+    </li>
   </template>
   
   <script setup>
   import { ref } from 'vue';
-  import Modal from './Modal.vue';
   
-  const props = defineProps({
-    task: Object,
-  });
+  const props = defineProps(['task']);
+  const emit = defineEmits(['toggleTask', 'removeTask', 'editTask']);
   
-  const emit = defineEmits(['toggleTask', 'removeTask', 'updateTask']);
+  const isEditing = ref(false);
+  const editedTaskName = ref('');
   
-  const isUpdateModalVisible = ref(false);
-  const showRemoveButton = ref(false);
-  
-  const toggleComplete = () => {
-    emit('toggleTask', props.task.id);
+  const toggleTaskHandler = (id) => {
+    emit('toggleTask', id);
   };
   
-  const removeTask = () => {
-    emit('removeTask', props.task.id);
+  const removeTaskHandler = (id) => {
+    emit('removeTask', id);
   };
   
-  const showUpdateModal = () => {
-    isUpdateModalVisible.value = true;
+  const editTask = () => {
+    isEditing.value = true;
+    editedTaskName.value = props.task.name;
   };
   
-  const hideUpdateModal = () => {
-    isUpdateModalVisible.value = false;
+  const saveTask = () => {
+    emit('editTask', { id: props.task.id, name: editedTaskName.value });
+    isEditing.value = false;
   };
   
-  const updateTodo = (taskName) => {
-    emit('updateTask', { id: props.task.id, name: taskName });
-    hideUpdateModal();
+  const cancelEdit = () => {
+    isEditing.value = false;
   };
   </script>
   
