@@ -11,7 +11,7 @@
                 </main>
                 <!-- Action -->
                 <div class="flex gap-3 justify-end">
-                    <slot />
+                    <slot/>
                 </div>
             </div>
         </dialog>
