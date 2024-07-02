@@ -9,12 +9,12 @@
         :taskList="taskList" 
         @toggleTask="toggleIsCompleted" 
         @removeTask="removeTodo" 
-        @editTask="updateTodo" 
+        @editTask="editTaskHandler" 
       />
       <p class="text-center mt-4">Total Tasks: {{ taskCount }}</p>
 
       <!-- Add Task Modal -->
-      <Modal :show="isAddModalShow" @toggleBackdrop="toggleBackdropHandler">
+      <Modal :show="isAddModalShow" @toggleBackdrop="toggleAddModal">
         <template #modal-header>
           <h3 class="text-lg font-bold">Add Task</h3>
         </template>
@@ -28,6 +28,22 @@
           <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="addTodoHandler">Add</button>
         </template>
       </Modal>
+
+      <!-- Update Task Modal -->
+      <Modal :show="isUpdateModalShow" @toggleBackdrop="toggleUpdateModal">
+        <template #modal-header>
+          <h3 class="text-lg font-bold">Update Task</h3>
+        </template>
+        <template #modal-content>
+          <label class="input input-bordered flex items-center gap-2">
+            <input v-model="editedTaskName" type="text" class="grow p-2 border rounded" placeholder="Enter updated task name" />
+          </label>
+        </template>
+        <template #default>
+          <button class="px-4 py-2 border rounded bg-red-600 text-gray-50" @click="toggleUpdateModal">Cancel</button>
+          <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="saveUpdatedTask">Save</button>
+        </template>
+      </Modal>
     </div>
   </div>
 </template>
@@ -39,45 +55,57 @@ import Modal from './components/Modal.vue';
 
 const taskList = ref([]);
 const newTaskName = ref('');
+const editedTaskName = ref('');
+const editingTaskId = ref(null);
 
 const isAddModalShow = ref(false);
+const isUpdateModalShow = ref(false);
 
 const taskCount = computed(() => taskList.value.length);
 
 const toggleAddModal = () => {
-  isAddModalShow.value = !isAddModalShow.value;
+    isAddModalShow.value = !isAddModalShow.value;
 };
 
-const toggleBackdropHandler = (payload) => {
-  isAddModalShow.value = !payload;
-};
-
-const removeTodo = (id) => {
-  taskList.value = taskList.value.filter(t => t.id !== id);
+const toggleUpdateModal = () => {
+    isUpdateModalShow.value = !isUpdateModalShow.value;
 };
 
 const toggleIsCompleted = (id) => {
-  taskList.value = taskList.value.map(task =>
-    task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
-  );
+    taskList.value = taskList.value.map(task =>
+        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
+    );
+};
+
+const removeTodo = (id) => {
+    taskList.value = taskList.value.filter(t => t.id !== id);
 };
 
 const addTodoHandler = () => {
-  if (newTaskName.value.trim() !== '') {
-    const newTask = {
-      id: Date.now(),
-      name: newTaskName.value.trim(),
-      isCompleted: false,
-    };
-    taskList.value.push(newTask);
-    newTaskName.value = '';
-    toggleAddModal();
-  }
+    if (newTaskName.value.trim() !== '') {
+        const newTask = {
+            id: Date.now(),
+            name: newTaskName.value.trim(),
+            isCompleted: false,
+        };
+        taskList.value.push(newTask);
+        newTaskName.value = '';
+        toggleAddModal();
+    }
 };
 
-const updateTodo = ({ id, name }) => {
-  taskList.value = taskList.value.map(task =>
-    task.id === id ? { ...task, name } : task
-  );
+const editTaskHandler = (task) => {
+    editingTaskId.value = task.id;
+    editedTaskName.value = task.name;
+    toggleUpdateModal();
+};
+
+const saveUpdatedTask = () => {
+    if (editedTaskName.value.trim() !== '') {
+        taskList.value = taskList.value.map(task =>
+            task.id === editingTaskId.value ? { ...task, name: editedTaskName.value.trim() } : task
+        );
+        toggleUpdateModal();
+    }
 };
 </script>
