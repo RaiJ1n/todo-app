@@ -8,7 +8,7 @@
       <TaskList 
         :taskList="taskList" 
         @toggleTask="toggleIsCompleted" 
-        @removeTask="removeTodo" 
+        @removeTask="removeTask" 
         @editTask="editTaskHandler" 
       />
       <p class="text-center mt-4">Total Tasks: {{ taskCount }}</p>
@@ -25,7 +25,7 @@
         </template>
         <template #default>
           <button class="px-4 py-2 border rounded bg-red-600 text-gray-50" @click="toggleAddModal">Cancel</button>
-          <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="addTodoHandler">Add</button>
+          <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="addTaskHandler">Add</button>
         </template>
       </Modal>
 
@@ -41,7 +41,7 @@
         </template>
         <template #default>
           <button class="px-4 py-2 border rounded bg-red-600 text-gray-50" @click="toggleUpdateModal">Cancel</button>
-          <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="saveUpdatedTask">Save</button>
+          <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="saveUpdatedTaskHandler">Save</button>
         </template>
       </Modal>
     </div>
@@ -52,8 +52,9 @@
 import { ref, computed } from 'vue';
 import TaskList from './components/TaskList.vue';
 import Modal from './components/Modal.vue';
+import store from './store/TodoStore.js';
 
-const taskList = ref([]);
+const taskList = computed(() => store.getTaskList().value);
 const newTaskName = ref('');
 const editedTaskName = ref('');
 const editingTaskId = ref(null);
@@ -72,23 +73,16 @@ const toggleUpdateModal = () => {
 };
 
 const toggleIsCompleted = (id) => {
-    taskList.value = taskList.value.map(task =>
-        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task
-    );
+    store.toggleTaskCompletion(id);
 };
 
-const removeTodo = (id) => {
-    taskList.value = taskList.value.filter(t => t.id !== id);
+const removeTask = (id) => {
+    store.removeTask(id);
 };
 
-const addTodoHandler = () => {
+const addTaskHandler = () => {
     if (newTaskName.value.trim() !== '') {
-        const newTask = {
-            id: Date.now(),
-            name: newTaskName.value.trim(),
-            isCompleted: false,
-        };
-        taskList.value.push(newTask);
+        store.addTask(newTaskName.value.trim());
         newTaskName.value = '';
         toggleAddModal();
     }
@@ -100,11 +94,9 @@ const editTaskHandler = (task) => {
     toggleUpdateModal();
 };
 
-const saveUpdatedTask = () => {
+const saveUpdatedTaskHandler = () => {
     if (editedTaskName.value.trim() !== '') {
-        taskList.value = taskList.value.map(task =>
-            task.id === editingTaskId.value ? { ...task, name: editedTaskName.value.trim() } : task
-        );
+        store.updateTask(editingTaskId.value, editedTaskName.value.trim());
         toggleUpdateModal();
     }
 };
