@@ -33,12 +33,13 @@ export default function useTodo() {
     const getTaskList = () => taskList;
                         
 
-    return {
-        ...toRefs(state),
-        addTask,
-        updateTask,
-        removeTask,
-        toggleTaskCompletion,
-        getTaskList
-        };
+return {
+    ...toRefs(state),
+    addTask,
+    updateTask,
+    removeTask, 
+    toggleTaskCompletion,
+    getTaskList
+    
+};
 }
