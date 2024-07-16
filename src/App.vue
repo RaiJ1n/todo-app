@@ -52,9 +52,10 @@
 import { ref, computed } from 'vue';
 import TaskList from './components/TaskList.vue';
 import Modal from './components/Modal.vue';
-import store from './store/TodoStore.js';
+import useTodo from './store/TodoStore.js'; // Corrected import
 
-const taskList = computed(() => store.getTaskList().value);
+const { taskList, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo(); // Corrected destructuring
+
 const newTaskName = ref('');
 const editedTaskName = ref('');
 const editingTaskId = ref(null);
@@ -73,16 +74,16 @@ const toggleUpdateModal = () => {
 };
 
 const toggleIsCompleted = (id) => {
-    store.toggleTaskCompletion(id);
+    toggleTaskCompletion(id); 
 };
 
 const removeTask = (id) => {
-    store.removeTask(id);
+  storeRemoveTask(id); 
 };
 
 const addTaskHandler = () => {
     if (newTaskName.value.trim() !== '') {
-        store.addTask(newTaskName.value.trim());
+        addTask(newTaskName.value.trim()); 
         newTaskName.value = '';
         toggleAddModal();
     }
@@ -96,7 +97,7 @@ const editTaskHandler = (task) => {
 
 const saveUpdatedTaskHandler = () => {
     if (editedTaskName.value.trim() !== '') {
-        store.updateTask(editingTaskId.value, editedTaskName.value.trim());
+        updateTask(editingTaskId.value, editedTaskName.value.trim()); 
         toggleUpdateModal();
     }
 };
