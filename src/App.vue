@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Headers />
+    <Header/>
     <div class="w-[360px] mx-auto p-3 ">
       <router-view></router-view>
     </div>

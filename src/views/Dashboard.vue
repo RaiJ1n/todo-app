@@ -52,7 +52,7 @@
   import { ref, computed } from 'vue';
   import TaskList from '../components/TaskList.vue';
   import Modal from '../components/Modal.vue';
-  import useTodo from '../store/TodoStore.js';
+  import { useTodo } from '../store/TodoStore.js';
   
   const { taskList, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
   
@@ -101,5 +101,7 @@
       toggleUpdateModal();
     }
   };
+
+  
   </script>
   

@@ -1,14 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const apiclient = axios.create({
-    baseURL: "http://localhost:4001/",
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json"
-    }
-})
+const apiClient = axios.create({
+  baseURL: 'http://localhost:4001/todo',
+  withCredentials: true,
+});
 
-export default apiclient;
+export default apiClient;
 
 
 

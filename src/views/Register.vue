@@ -4,9 +4,17 @@
             <form @submit.prevent="registerUser" class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
-                        Username
+                        Name
                     </label>
-                    <input v-model="userData.username"
+                    <input v-model="userData.name"
+                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="username" type="text" placeholder="Username">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
+                        Email
+                    </label>
+                    <input v-model="userData.email"
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                         id="username" type="text" placeholder="Username">
                 </div>
