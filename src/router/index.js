@@ -11,7 +11,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/todo",
+      path: "/",
       name: "dashboard",
       component: DashBoard,
       meta: { requiresAuth: true },
@@ -43,14 +43,14 @@ router.beforeEach(async (to, from, next) => {
     to.meta.requiresAuth === false &&
     isAuthenticated.value
   ) {
-    return next("/todo");
+    return next("/");
   }
   if (
     to.name === "register" &&
     to.meta.requiresAuth === false &&
     isAuthenticated.value
   ) {
-    return next("/todo");
+    return next("/");
   }
   next();
 });
