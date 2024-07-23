@@ -8,7 +8,7 @@
                     </label>
                     <input v-model="userData.name"
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="username" type="text" placeholder="Username">
+                        id="name" type="text" placeholder="Name">
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 text-sm font-bold text-gray-700" for="username">
@@ -16,7 +16,7 @@
                     </label>
                     <input v-model="userData.email"
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="username" type="text" placeholder="Username">
+                        id="email" type="text" placeholder="Email">
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
@@ -58,7 +58,7 @@ const userData = reactive({
 const registerUser = async () => {
 
     try {
-        const newUser = await apiClient.post('/create', {
+        const newUser = await apiClient.post('/register', {
             name: userData.name,
             email: userData.email,
             password: userData.password
