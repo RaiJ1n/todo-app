@@ -47,15 +47,14 @@
   });
   
   const login = async () => {
-    console.log("Login function called");
-    try {
-      const newUser = await apiClient.post('/login', userData);
-      localStorage.setItem('jwt', newUser.data.content);
-      router.push('/all/task');
-      console.log(newUser);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+try {
+    const newUser = await apiClient.post('/login', userData)
+    localStorage.setItem('jwt', newUser.data.content)
+    router.push('/')
+} catch (err) {
+    console.log(err);
+}
+
+}
   </script>
-  

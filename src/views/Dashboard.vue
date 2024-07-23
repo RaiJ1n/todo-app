@@ -1,18 +1,19 @@
 <template>
     <div>
-      <h1 class="p-6 text-3xl font-bold text-center">Todo App</h1>
+      <h1 class="p-6 text-3xl font-bold text-center">Welcome </h1>
       <div class="w-[360px] mx-auto p-3">
         <header class="flex justify-center gap-3 mb-4">
           <button class="px-4 py-2 border rounded bg-blue-500 text-white w-32" @click="toggleAddModal">Add Task</button>
         </header>
         <TaskList 
+          v-if="taskList && taskList.length > 0" 
           :taskList="taskList" 
           @toggleTask="toggleIsCompleted" 
           @removeTask="removeTask" 
           @editTask="editTaskHandler" 
         />
         <p class="text-center mt-4">Total Tasks: {{ taskCount }}</p>
-  
+    
         <!-- Add Task Modal -->
         <Modal :show="isAddModalShow" @toggleBackdrop="toggleAddModal">
           <template #modal-header>
@@ -28,7 +29,7 @@
             <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="addTaskHandler">Add</button>
           </template>
         </Modal>
-  
+    
         <!-- Update Task Modal -->
         <Modal :show="isUpdateModalShow" @toggleBackdrop="toggleUpdateModal">
           <template #modal-header>
@@ -63,7 +64,7 @@
   const isAddModalShow = ref(false);
   const isUpdateModalShow = ref(false);
   
-  const taskCount = computed(() => taskList.value.length);
+  const taskCount = computed(() => taskList.value ? taskList.value.length : 0);
   
   const toggleAddModal = () => {
     isAddModalShow.value = !isAddModalShow.value;
@@ -101,7 +102,4 @@
       toggleUpdateModal();
     }
   };
-
-  
-  </script>
-  
+  </script>  

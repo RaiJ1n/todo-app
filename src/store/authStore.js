@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import apiclient from "@/config/axiosClient";
+
 const isAuthenticated = ref(false);
 
 export function useAuth() {
