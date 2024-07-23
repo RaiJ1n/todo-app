@@ -6,7 +6,7 @@ const taskList = ref([]);
 export function useTodo() {
   const fetchTodo = async () => {
     try {
-      const newUser = await apiClient.get("/");
+      const newUser = await apiClient.get("/list");
       taskList.value = newUser.data.content;
       
     } catch (err) {

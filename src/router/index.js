@@ -43,7 +43,7 @@ router.beforeEach(async (to, from, next) => {
     to.meta.requiresAuth === false &&
     isAuthenticated.value
   ) {
-    return next("/");
+    return next("/list");
   }
   if (
     to.name === "register" &&
