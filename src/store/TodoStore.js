@@ -17,7 +17,7 @@ export function useTodo() {
 
   const addTask = async (taskName) => {
     try {
-      const response = await apiClient.post("/add/task", { name: taskName });
+      const response = await apiClient.post("/add/task", { todo: todo });
       taskList.value.push(response.data);
     } catch (err) {
       console.log(err);
@@ -27,7 +27,7 @@ export function useTodo() {
   
   const updateTask = async (taskId, taskName) => {
     try {
-      const response = await apiClient.post("/update", { id: taskId, name: taskName });
+      const response = await apiClient.post("/update", { id: taskId, todo: taskName });
       const index = taskList.value.findIndex(task => task.id === taskId);
       if (index !== -1) {
         taskList.value[index] = response.data;
