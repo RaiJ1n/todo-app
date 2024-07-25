@@ -7,8 +7,8 @@ export function useTodo() {
 
   const fetchTodo = async () => {
     try {
-      const response = await apiClient.get("/todo");
-      taskList.value = response.data.content;
+      const newUser = await apiClient.get("/todo");
+      taskList.value = newUser.data.content;
     } catch (err) {
       console.log(err);
     }
