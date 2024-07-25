@@ -13,9 +13,13 @@
 
 <script setup>
 import TaskItem from './TaskItem.vue';
-import { useTodo } from '@/store/TodoStore';
+import { useTodo } from '@/store/TodoStore.js';
 
-const props = defineProps(['taskList']);
+const { taskList, fetchTodo } = useTodo();
+
+// Fetch tasks immediately in the setup function
+fetchTodo();
+
 const emit = defineEmits(['toggleTask', 'removeTask', 'editTask']);
 
 const toggleTaskHandler = (id) => {

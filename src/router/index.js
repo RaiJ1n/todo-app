@@ -3,9 +3,9 @@ import Login from "@/views/Login.vue";
 import DashBoard from "@/views/Dashboard.vue";
 import Register from "@/views/Register.vue";
 import { useAuth } from "@/store/authStore";
-import { useTodo } from "@/store/TodoStore";
+// import { useTodo } from "@/store/TodoStore";
 const { checkAuth, isAuthenticated } = useAuth();
-const { fetchTodo } = useTodo();
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +33,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   await checkAuth();
-  await fetchTodo();
+//   await fetchTodo();
   console.log(isAuthenticated.value);
 
   if (to.meta.requiresAuth && !isAuthenticated.value) return next("/login");

@@ -13,7 +13,7 @@
           @editTask="editTaskHandler" 
         />
         <p class="text-center mt-4">Total Tasks: {{ taskCount }}</p>
-    
+  
         <!-- Add Task Modal -->
         <Modal :show="isAddModalShow" @toggleBackdrop="toggleAddModal">
           <template #modal-header>
@@ -29,7 +29,7 @@
             <button class="px-4 py-2 border rounded bg-blue-500 text-white" @click="addTaskHandler">Add</button>
           </template>
         </Modal>
-    
+  
         <!-- Update Task Modal -->
         <Modal :show="isUpdateModalShow" @toggleBackdrop="toggleUpdateModal">
           <template #modal-header>
@@ -49,57 +49,42 @@
     </div>
   </template>
   
-  <script setup>
-  import { ref, computed } from 'vue';
-  import TaskList from '../components/TaskList.vue';
-  import Modal from '../components/Modal.vue';
-  import { useTodo } from '../store/TodoStore.js';
+<script setup>
+import { ref, computed } from 'vue';
+import TaskList from '../components/TaskList.vue';
+import Modal from '../components/Modal.vue';
+import { useTodo } from '../store/TodoStore.js';
   
-  const { taskList, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
   
-  const newTaskName = ref('');
-  const editedTaskName = ref('');
-  const editingTaskId = ref(null);
+const { taskList, addTask, fetchTodo } = useTodo();
+
+const newTaskName = ref(''); 
+const editedTaskName = ref(''); 
+const editingTaskId = ref(null); 
   
-  const isAddModalShow = ref(false);
-  const isUpdateModalShow = ref(false);
+const isAddModalShow = ref(false); 
+const isUpdateModalShow = ref(false); 
   
-  const taskCount = computed(() => taskList.value ? taskList.value.length : 0);
+const taskCount = computed(() => taskList.value ? taskList.value.length : 0); 
   
-  const toggleAddModal = () => {
+  
+  fetchTodo();
+  
+  
+const toggleAddModal = () => {
     isAddModalShow.value = !isAddModalShow.value;
   };
   
-  const toggleUpdateModal = () => {
-    isUpdateModalShow.value = !isUpdateModalShow.value;
-  };
+ 
   
-  const toggleIsCompleted = (id) => {
-    toggleTaskCompletion(id); 
-  };
   
-  const removeTask = (id) => {
-    storeRemoveTask(id); 
-  };
-  
-  const addTaskHandler = () => {
+const addTaskHandler = () => {
     if (newTaskName.value.trim() !== '') {
       addTask(newTaskName.value.trim()); 
       newTaskName.value = '';
       toggleAddModal();
     }
   };
+
+  </script>
   
-  const editTaskHandler = (task) => {
-    editingTaskId.value = task.id;
-    editedTaskName.value = task.name;
-    toggleUpdateModal();
-  };
-  
-  const saveUpdatedTaskHandler = () => {
-    if (editedTaskName.value.trim() !== '') {
-      updateTask(editingTaskId.value, editedTaskName.value.trim()); 
-      toggleUpdateModal();
-    }
-  };
-  </script>  
