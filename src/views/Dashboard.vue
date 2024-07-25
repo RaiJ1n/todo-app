@@ -50,13 +50,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import TaskList from '../components/TaskList.vue';
 import Modal from '../components/Modal.vue';
 import { useTodo } from '../store/TodoStore.js';
 
+const { taskList, fetchTodo, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
 
-const { taskList, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
+onMounted(async () =>{
+  await fetchTodo();
+});
 
 const newTaskName = ref(''); 
 const editedTaskName = ref(''); 
@@ -67,26 +70,21 @@ const isUpdateModalShow = ref(false);
 
 const taskCount = computed(() => taskList.value ? taskList.value.length : 0); 
 
-
 const toggleAddModal = () => {
   isAddModalShow.value = !isAddModalShow.value;
 };
-
 
 const toggleUpdateModal = () => {
   isUpdateModalShow.value = !isUpdateModalShow.value;
 };
 
-
 const toggleIsCompleted = (id) => {
   toggleTaskCompletion(id); 
 };
 
-
 const removeTask = (id) => {
   storeRemoveTask(id); 
 };
-
 
 const addTaskHandler = () => {
   if (newTaskName.value.trim() !== '') {
@@ -96,13 +94,11 @@ const addTaskHandler = () => {
   }
 };
 
-
 const editTaskHandler = (task) => {
   editingTaskId.value = task.id;
   editedTaskName.value = task.name;
   toggleUpdateModal();
 };
-
 
 const saveUpdatedTaskHandler = () => {
   if (editedTaskName.value.trim() !== '') {
@@ -111,3 +107,4 @@ const saveUpdatedTaskHandler = () => {
   }
 };
 </script>
+

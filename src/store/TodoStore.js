@@ -16,44 +16,40 @@ export function useTodo() {
 
 
   const addTask = async (todo) => {
+    console.log(todo);
     try {
-      const response = await apiClient.post("/add/task", { todo: todo });
-      taskList.value.push(response.data);
+      await apiClient.post("/add/task", { todo: todo });
+      await fetchTodo()
     } catch (err) {
       console.log(err);
     }
   };
 
   
-  const updateTask = async (taskId, taskName) => {
+  const updateTask = async (taskId, todo) => {
     try {
-      const response = await apiClient.post("/update", { id: taskId, todo: taskName });
-      const index = taskList.value.findIndex(task => task.id === taskId);
-      if (index !== -1) {
-        taskList.value[index] = response.data;
-      }
+      await apiClient.post("/update", { id: taskId, todo: todo });
+      await fetchTodo(); 
     } catch (err) {
       console.log(err);
     }
   };
 
-  
   const removeTask = async (taskId) => {
     try {
       await apiClient.post("/delete", { id: taskId });
-      taskList.value = taskList.value.filter(task => task.id !== taskId);
+      await fetchTodo(); 
     } catch (err) {
       console.log(err);
     }
   };
 
-  
   const toggleTaskCompletion = async (taskId) => {
     try {
       const task = taskList.value.find(task => task.id === taskId);
       if (task) {
-        const response = await apiClient.post("/update", { id: taskId, completed: !task.completed });
-        task.completed = response.data.completed;
+        await apiClient.post("/update", { id: taskId, completed: !task.completed });
+        await fetchTodo(); 
       }
     } catch (err) {
       console.log(err);
@@ -62,10 +58,10 @@ export function useTodo() {
 
   return {
     fetchTodo,
-    taskList, 
-    addTask, 
-    updateTask, 
-    removeTask, 
-    toggleTaskCompletion 
+    taskList,
+    addTask,
+    updateTask,
+    removeTask,
+    toggleTaskCompletion
   };
 }
