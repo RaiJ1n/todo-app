@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-  const props = defineProps(['task']);
+const props = defineProps(['task']);
 const emit = defineEmits(['toggleTask', 'removeTask', 'editTask']);
 
 const toggleTaskHandler = (id) => {
