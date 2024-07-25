@@ -3,7 +3,7 @@ import Login from "@/views/Login.vue";
 import DashBoard from "@/views/Dashboard.vue";
 import Register from "@/views/Register.vue";
 import { useAuth } from "@/store/authStore";
-// import { useTodo } from "@/store/TodoStore";
+
 const { checkAuth, isAuthenticated } = useAuth();
 
 
