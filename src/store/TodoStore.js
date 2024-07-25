@@ -15,7 +15,7 @@ export function useTodo() {
   };
 
 
-  const addTask = async (taskName) => {
+  const addTask = async (todo) => {
     try {
       const response = await apiClient.post("/add/task", { todo: todo });
       taskList.value.push(response.data);
