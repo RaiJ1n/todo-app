@@ -17,7 +17,7 @@ import { useTodo } from '@/store/TodoStore.js';
 
 const { taskList, fetchTodo } = useTodo();
 
-// Fetch tasks immediately in the setup function
+
 fetchTodo();
 
 const emit = defineEmits(['toggleTask', 'removeTask', 'editTask']);
