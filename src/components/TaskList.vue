@@ -1,9 +1,8 @@
 <template>
   <ul class="task-list space-y-2">
     <TaskItem 
-      v-for="task in taskList" 
-      :key="task.id" 
-      :task="task" 
+    v-for="task in taskList" :id="task._id"
+    :key="task.id" :name="task.todo" :isFinished="task.isFinished" 
       @toggleTask="toggleTaskHandler" 
       @removeTask="removeTaskHandler" 
       @editTask="editTaskHandler" 
@@ -14,7 +13,6 @@
 <script setup>
 import TaskItem from './TaskItem.vue';
 import { useTodo } from '@/store/TodoStore.js';
-
 const { taskList, fetchTodo } = useTodo();
 
 

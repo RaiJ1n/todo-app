@@ -26,15 +26,22 @@ export function useTodo() {
   };
 
   
-  const updateTask = async (taskId, todo) => {
+  const updateTask = async (_id, todo) => {
+    console.log(_id, todo);
     try {
-      await apiClient.post("/update", { id: taskId, todo: todo });
+      const response = await apiClient.post("/update", { id: _id, todo: todo });
+      if (response.status === 204) {
+        console.log('Task updated successfully with no content');
+      } else {
+        console.log(response.data);
+      }
       await fetchTodo(); 
     } catch (err) {
       console.log(err);
     }
   };
 
+  
   const removeTask = async (taskId) => {
     try {
       await apiClient.post("/delete", { id: taskId });
@@ -44,6 +51,7 @@ export function useTodo() {
     }
   };
 
+  
   const toggleTaskCompletion = async (taskId) => {
     try {
       const task = taskList.value.find(task => task.id === taskId);
@@ -58,10 +66,10 @@ export function useTodo() {
 
   return {
     fetchTodo,
-    taskList,
-    addTask,
-    updateTask,
-    removeTask,
-    toggleTaskCompletion
+    taskList, 
+    addTask, 
+    updateTask, 
+    removeTask, 
+    toggleTaskCompletion 
   };
 }
