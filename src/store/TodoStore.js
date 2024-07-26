@@ -18,7 +18,8 @@ export function useTodo() {
   const addTask = async (todo) => {
     console.log(todo);
     try {
-      await apiClient.post("/add/task", { todo: todo });
+      const response = await apiClient.post("/add/task", { todo: todo });
+      console.log(response);
       await fetchTodo()
     } catch (err) {
       console.log(err);
@@ -27,17 +28,26 @@ export function useTodo() {
 
   
   const updateTask = async (_id, todo) => {
-    console.log(_id, todo);
+    console.log("Updating task:", _id, todo);
     try {
       const response = await apiClient.post("/update", { id: _id, todo: todo });
+      
+      
       if (response.status === 204) {
-        console.log('Task updated successfully with no content');
+        console.log("no content");
       } else {
-        console.log(response.data);
+        
+        if (response.data) {
+          console.log("Response data:", response.data);
+        } else {
+          console.log("Response data is undefined or empty.");
+        }
       }
+  
+      
       await fetchTodo(); 
     } catch (err) {
-      console.log(err);
+      console.error("Error in updateTask:", err);
     }
   };
 
