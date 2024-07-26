@@ -55,11 +55,12 @@ import TaskList from '../components/TaskList.vue';
 import Modal from '../components/Modal.vue';
 import { useTodo } from '../store/TodoStore.js';
 
-const { taskList, fetchTodo, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
-
 onMounted(async () =>{
   await fetchTodo();
 });
+
+const { taskList, fetchTodo, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
+
 
 const newTaskName = ref(''); 
 const editedTaskName = ref(''); 
