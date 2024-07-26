@@ -28,8 +28,8 @@ const removeTaskHandler = (id) => {
   emit('removeTask', id);
 };
 
-const editTaskHandler = (task) => {
-  emit('editTask', task);
+const editTaskHandler = (id) => {
+  emit('editTask', id);
 };
 </script>
 
