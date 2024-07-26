@@ -25,8 +25,8 @@
     emit('removeTask', id);
   };
   
-  const editTask = () => {
-  emit('editTask', props.id);
+  const editTask = (id) => {
+  emit('editTask', id);
   };
   </script>
   

@@ -27,29 +27,28 @@ export function useTodo() {
   };
 
   
-  const updateTask = async (_id, todo) => {
-    console.log("Updating task:", _id, todo);
+  const updateTask = async (id, todo) => {
+    
+    console.log("Updating task:", id, todo);
     try {
-      const response = await apiClient.post("/update", { id: _id, todo: todo });
-      
+      const response = await apiClient.post("/update", id,{ todo: todo });
       
       if (response.status === 204) {
-        console.log("no content");
+        console.log("No content");
       } else {
-        
         if (response.data) {
           console.log("Response data:", response.data);
         } else {
           console.log("Response data is undefined or empty.");
         }
       }
-  
       
       await fetchTodo(); 
     } catch (err) {
       console.error("Error in updateTask:", err);
     }
   };
+  
 
   
   const removeTask = async (taskId) => {
