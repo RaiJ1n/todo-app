@@ -34,7 +34,7 @@ export function useTodo() {
       const response = await apiClient.post("/update", todoId, { todo: todo });
       
       if (response.status === 204) {
-        console.log("No content");
+        console.log(response);
       } else {
         if (response.data) {
           console.log("Response data:", response.data);
@@ -49,6 +49,17 @@ export function useTodo() {
     }
   };
   
+  const toggleTaskCompletion = async (todoId) => {
+    try {
+        const todo = taskList.value.find(todoId => todo.id === todoId);
+        if (todo) {
+            await apiClient.post("/update", { todoId: todoId, todo: { ...todo, isfinished: !todo.isfinished } });
+            await fetchTodo(); 
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
 
   
   const removeTask = async (todoId) => {
@@ -61,17 +72,7 @@ export function useTodo() {
   };
 
   
-  const toggleTaskCompletion = async (todoId) => {
-    try {
-        const todo = taskList.value.find(todoId => todo.id === todoId);
-        if (todo) {
-            await apiClient.post("/update", { todoId: todoId, todo: { ...todo, isfinished: !todo.isfinished } });
-            await fetchTodo(); 
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
+
 
 
   return {
