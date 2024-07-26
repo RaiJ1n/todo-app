@@ -31,7 +31,7 @@ export function useTodo() {
     
     console.log("Updating task:", id, todo);
     try {
-      const response = await apiClient.post("/update", id,{ todo: todo });
+      const response = await apiClient.post("/update", id, { todo: todo });
       
       if (response.status === 204) {
         console.log("No content");
