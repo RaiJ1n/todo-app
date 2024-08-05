@@ -1,10 +1,9 @@
 import { ref } from "vue";
 import apiClient from "@/config/axiosClient";
 
-const taskList = ref([]); 
+const taskList = ref([]);
 
 export function useTodo() {
-  
   const fetchTodo = async () => {
     try {
       const response = await apiClient.get("/todo");
@@ -14,25 +13,25 @@ export function useTodo() {
     }
   };
 
-
   const addTask = async (todo) => {
     console.log(todo);
     try {
       const response = await apiClient.post("/add/task", { todo: todo });
       console.log(response);
-      await fetchTodo()
+      await fetchTodo();
     } catch (err) {
       console.log(err);
     }
   };
 
-  
   const updateTask = async (todoId, todo) => {
-    
-    console.log("Updating task:", todoId, todo);
+    console.log(todoId);
     try {
-      const response = await apiClient.post("/update", todoId, { todo: todo });
-      
+      const response = await apiClient.post("/update", {
+        id: todoId,
+        todo: todo,
+      });
+
       if (response.status === 204) {
         console.log(response);
       } else {
@@ -42,45 +41,44 @@ export function useTodo() {
           console.log("Response data is undefined or empty.");
         }
       }
-      
-      await fetchTodo(); 
+
+      await fetchTodo();
     } catch (err) {
       console.error("Error in updateTask:", err);
     }
   };
-  
+
   const toggleTaskCompletion = async (todoId) => {
     try {
-        const todo = taskList.value.find(todoId => todo.id === todoId);
-        if (todo) {
-            await apiClient.post("/update", { todoId: todoId, todo: { ...todo, isfinished: !todo.isfinished } });
-            await fetchTodo(); 
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-  
-  const removeTask = async (todoId) => {
-    try {
-      await apiClient.post("/delete", { todoId: todoId });
-      await fetchTodo(); 
+      const todo = taskList.value.find(task => task.id === todoId); 
+      if (todo) {
+        await apiClient.post("/update", {
+          id: todoId,
+          todo: { ...todo, isfinished: !todo.isfinished },
+        });
+        await fetchTodo();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  
-
+  const removeTask = async (todoId) => {  
+    try {
+      await apiClient.post(`/delete/${todoId}`);
+      await fetchTodo();
+    } catch (err) {
+      console.log(err);
+    }
+};
 
 
   return {
     fetchTodo,
-    taskList, 
-    addTask, 
-    updateTask, 
-    removeTask, 
-    toggleTaskCompletion 
+    taskList,
+    addTask,
+    updateTask,
+    removeTask,
+    toggleTaskCompletion,
   };
 }
