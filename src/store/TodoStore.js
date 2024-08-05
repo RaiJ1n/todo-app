@@ -51,6 +51,7 @@ export function useTodo() {
   const toggleTaskCompletion = async (todoId) => {
     try {
       const todo = taskList.value.find(task => task.id === todoId); 
+      console.log(todo); 
       if (todo) {
         await apiClient.post("/update", {
           id: todoId,
@@ -62,6 +63,9 @@ export function useTodo() {
       console.log(err);
     }
   };
+  
+  
+  
 
   const removeTask = async (todoId) => {  
     try {
