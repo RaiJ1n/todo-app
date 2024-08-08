@@ -48,22 +48,47 @@ export function useTodo() {
     }
   };
 
+  // const toggleTaskCompletion = async (todoId) => {
+  //   console.log(todoId);
+    
+  //   try {
+  //     const todoId = taskList.value.find(task => task.id === todoId); 
+  //     console.log(todo); 
+  //     if (todoId) {
+  //       await apiClient.post("/update", {
+  //         id: todoId,
+  //         todo: { ...todo, isfinished: !todo.isfinished },
+  //       });
+  //       await fetchTodo();
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const toggleTaskCompletion = async (todoId) => {
+    console.log(todoId);
+    
     try {
       const todo = taskList.value.find(task => task.id === todoId); 
       console.log(todo); 
+
       if (todo) {
-        await apiClient.post("/update", {
+        await apiClient.post("/toggle-completion", {
           id: todoId,
-          todo: { ...todo, isfinished: !todo.isfinished },
         });
+
+        
         await fetchTodo();
+      } else {
+        console.error('Task not found');
       }
     } catch (err) {
       console.log(err);
     }
-  };
-  
+};
+
+
+
   
   
 
