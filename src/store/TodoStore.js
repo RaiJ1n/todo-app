@@ -71,14 +71,14 @@ export function useTodo() {
     try {
         console.log("Current Task List:", taskList.value);
         
-        const todo = taskList.value.find(task => task.id === todoId); 
+        const todo = taskList.value.find(task => task._id === todoId); 
         console.log("Found Task:", todo); 
 
         if (todo) {
             const response = await apiClient.post("/toggle-completion", {
-                id: todoId,
+                todoId: todoId,
             });
-            console.log("API Response:", response.data);
+            console.log("API Response:", response);
             
             await fetchTodo();
             console.log("Updated Task List:", taskList.value);
@@ -86,9 +86,10 @@ export function useTodo() {
             console.error('Task not found');
         }
     } catch (err) {
-        console.error("Error occurred:", err);
+        console.error(err);
     }
 };
+
 
 
 
