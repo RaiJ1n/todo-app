@@ -66,26 +66,30 @@ export function useTodo() {
   //   }
   // };
   const toggleTaskCompletion = async (todoId) => {
-    console.log(todoId);
+    console.log("Task ID:", todoId);
     
     try {
-      const todo = taskList.value.find(task => task.id === todoId); 
-      console.log(todo); 
-
-      if (todo) {
-        await apiClient.post("/toggle-completion", {
-          id: todoId,
-        });
-
+        console.log("Current Task List:", taskList.value);
         
-        await fetchTodo();
-      } else {
-        console.error('Task not found');
-      }
+        const todo = taskList.value.find(task => task.id === todoId); 
+        console.log("Found Task:", todo); 
+
+        if (todo) {
+            const response = await apiClient.post("/toggle-completion", {
+                id: todoId,
+            });
+            console.log("API Response:", response.data);
+            
+            await fetchTodo();
+            console.log("Updated Task List:", taskList.value);
+        } else {
+            console.error('Task not found');
+        }
     } catch (err) {
-      console.log(err);
+        console.error("Error occurred:", err);
     }
 };
+
 
 
 
