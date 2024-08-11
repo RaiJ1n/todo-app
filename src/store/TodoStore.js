@@ -65,6 +65,8 @@ export function useTodo() {
   //     console.log(err);
   //   }
   // };
+
+  
   const toggleTaskCompletion = async (todoId) => {
     console.log("Task ID:", todoId);
     
@@ -75,7 +77,7 @@ export function useTodo() {
         console.log("Found Task:", todo); 
 
         if (todo) {
-            const response = await apiClient.post("/toggle-completion", {
+            const response = await apiClient.post("/toggle", {
                 todoId: todoId,
             });
             console.log("API Response:", response);
