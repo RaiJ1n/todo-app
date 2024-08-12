@@ -33,7 +33,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   await checkAuth();
-//   await fetchTodo();
+//   await Todo();
   console.log(isAuthenticated.value);
 
   if (to.meta.requiresAuth && !isAuthenticated.value) return next("/login");
