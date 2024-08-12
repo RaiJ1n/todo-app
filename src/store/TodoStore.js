@@ -66,24 +66,24 @@ export function useTodo() {
   //   }
   // };
 
-  
+
   const toggleTaskCompletion = async (todoId) => {
-    console.log("Task ID:", todoId);
+    // console.log("Task ID:", todoId);
     
     try {
-        console.log("Current Task List:", taskList.value);
+        // console.log("Current Task List:", taskList.value);
         
         const todo = taskList.value.find(task => task._id === todoId); 
-        console.log("Found Task:", todo); 
+        // console.log("Found Task:", todo); 
 
         if (todo) {
-            const response = await apiClient.post("/toggle", {
+            await apiClient.post("/toggle", {
                 todoId: todoId,
             });
-            console.log("API Response:", response);
+            // console.log("API Response:", response);
             
             await fetchTodo();
-            console.log("Updated Task List:", taskList.value);
+            // console.log("Updated Task List:", taskList.value);
         } else {
             console.error('Task not found');
         }
@@ -91,12 +91,6 @@ export function useTodo() {
         console.error(err);
     }
 };
-
-
-
-
-
-  
   
 
   const removeTask = async (todoId) => {  
@@ -116,5 +110,7 @@ export function useTodo() {
     updateTask,
     removeTask,
     toggleTaskCompletion,
+    setUserName,
+    
   };
 }

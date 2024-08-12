@@ -55,7 +55,7 @@ onMounted(async () => {
   await fetchTodo();
 });
 
-const { taskList, fetchTodo, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion } = useTodo();
+const { taskList, fetchTodo, addTask, updateTask, removeTask: storeRemoveTask, toggleTaskCompletion,} = useTodo();
 
 
 const newTaskName = ref('');
@@ -66,6 +66,8 @@ const isAddModalShow = ref(false);
 const isUpdateModalShow = ref(false);
 
 const taskCount = computed(() => taskList.value ? taskList.value.length : 0);
+
+
 
 const toggleAddModal = () => {
   isAddModalShow.value = !isAddModalShow.value;
@@ -105,4 +107,6 @@ const saveUpdatedTaskHandler = () => {
     toggleUpdateModal();
   }
 };
+
+
 </script>
